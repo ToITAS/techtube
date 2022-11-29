@@ -1,0 +1,163 @@
+body {
+  background: linear-gradient(180deg, #243453 0%, #1a2741 48.39%, #1a2333 100%);
+  background-size: cover;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.tittel {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  color: #ffa31a;
+  margin-left: -2rem;
+  margin-top: 1.5rem;
+  transform: scale(0.7);
+  font-family: "Helvetica", sans-serif;
+  width: fit-content;
+}
+h2 {
+  color: #ffffff;
+}
+
+.tittel img {
+  width: 30rem;
+  height: auto;
+}
+
+.tittel:hover {
+  cursor: pointer;
+}
+
+#tittelInput {
+  background: none;
+  border: none;
+  border-bottom: 2px solid white;
+  color: white;
+}
+
+#tittelInput:focus {
+  outline: none;
+}
+
+select {
+  background: none;
+  border: none;
+  color: white;
+  border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+option {
+  color: #1a2333;
+  appearance: none;
+}
+
+select:focus {
+  outline: none;
+}
+
+.send {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  margin-left: 80%;
+  transform: scale(1.8);
+}
+
+.send button {
+  transition-duration: 0.6s;
+  color: black;
+  border: 2px solid #e90006;
+  background-color: #e90006;
+  border-radius: 8%;
+}
+
+.send button:hover {
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  background-color: #e90006;
+  color: white;
+  border-radius: 10%;
+}
+
+.input-outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.input textarea {
+  resize: vertical;
+}
+
+.modules {
+  display: flex;
+  margin-top: 1%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.module {
+  margin-top: 1.1rem;
+  width: 100%;
+}
+
+#navn {
+  cursor: pointer;
+}
+
+#tema {
+  cursor: pointer;
+}
+
+#moduleVelger {
+  margin-left: 2%;
+}
+
+#moduleVelger:hover {
+  cursor: pointer;
+}
+.addModule:hover {
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  background-color: #ffe4bf;
+  border-color: #ffe4bf;
+  color: black;
+  border-radius: 12%;
+}
+
+.addModule {
+  transition-duration: 0.2s;
+  background-color: white;
+  color: black;
+  border: 2px solid #ffa31a;
+  background-color: #ffa31a;
+  border-radius: 8%;
+}
+
+textarea {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
+
+.undertittel textarea {
+  height: 4rem;
+}
+
+.brødtekst textarea {
+  height: 15rem;
+}
+
+.kodeblokk textarea {
+  height: 20rem;
+}
+
+.kodeblokk textarea:focus {
+  cursor: text;
+}

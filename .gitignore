@@ -1,0 +1,4 @@
+/techtube-api/node_modules
+/techtube-frontend/node_modules
+/nginx-1.22.1/logs/access.log
+/nginx-1.22.1/logs/error.log

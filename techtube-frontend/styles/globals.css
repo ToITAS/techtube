@@ -1,0 +1,78 @@
+:root {
+  --text-color: white;
+  --margin-1: 23rem;
+}
+
+html,
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+a,
+p,
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-color);
+  font-family: "Inter";
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 4em;
+  font-weight: bold;
+}
+
+header h4 {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: #bbbbbb;
+}
+
+header {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+#__next,
+.page-root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.page-root {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: linear-gradient(180deg, #243453 0%, #1a2741 48.39%, #1a2333 100%);
+}
+
+.page-root-inner {
+  width: 1024px;
+  position: relative;
+}
+
+@import "./landing.css";
+
+@import "./navbar.css";
+
+@import "./article.css";
+
+@import "./login.css";

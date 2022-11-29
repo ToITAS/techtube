@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Style.css" />
+    <script src="script.js" defer></script>
+    <title>TechTube CMS</title>
+  </head>
+  <body>
+    <div class="tittel">
+      <a href="/"><img src="logos CMS.svg" /></a>
+    </div>
+
+    <div class="input-outer">
+      <div class="input">
+        <input type="text" placeholder="Tittel" id="tittelInput" />
+        <select id="tema" name="tema">
+          <option>Tema</option>
+        </select>
+        <select id="navn" name="navn">
+          <option>Navn</option>
+        </select>
+        <div class="modules"></div>
+        <button class="addModule" onclick="addModuleClicked()">Add</button>
+        <select id="moduleVelger" name="moduleVelger">
+          <option>Module Velger</option>
+          <option>asd</option>
+        </select>
+      </div>
+    </div>
+    <div class="send">
+      <button onclick="onSend()">Send</button>
+    </div>
+  </body>
+</html>

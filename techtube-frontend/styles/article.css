@@ -1,0 +1,19 @@
+.article {
+  width: 800px;
+}
+
+.article-head h4 {
+  color: rgb(189, 189, 189);
+}
+
+.article-content {
+  margin-top: 2rem;
+}
+
+.article-module {
+  margin-top: 1rem;
+}
+
+.article-module h2 {
+  font-weight: bold;
+}
