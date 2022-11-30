@@ -77,9 +77,14 @@ export default function Navbar() {
             <Link href="/">Hjem</Link>
           </li>
           {auth?.user?.autoritet === 1 ? (
-            <li>
-              <Link href="/cms">Cms</Link>
-            </li>
+            <>
+              <li>
+                <Link href="/cms">Cms</Link>
+              </li>
+              <li>
+                <Link href="/admin">Admin</Link>
+              </li>
+            </>
           ) : (
             ""
           )}

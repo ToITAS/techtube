@@ -93,7 +93,7 @@ function onSend() {
     moduler,
   };
 
-  fetch(urlHome + "/api/leggTilArtikkel", {
+  fetch(urlHome + "/api/artikler/ny", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newArticle),
