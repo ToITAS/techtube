@@ -28,8 +28,13 @@ export default function Home({ articles }) {
                   <Link href={`/artikler/${article.artikkel_id}`} key={index}>
                     <div className="article-card">
                       <div className="article-card-text">
-                        <h3>{article.tittel}</h3>
-                        <h4>{article.lagt_til_av.fornavn}</h4>
+                        <div className="article-card-upper">
+                          <h3>{article.tittel}</h3>
+                        </div>
+                        <div className="article-card-lower">
+                          <h4>Skrevet av {article.lagt_til_av.brukernavn}</h4>
+                          <h4>{article.tema}</h4>
+                        </div>
                       </div>
                     </div>
                   </Link>

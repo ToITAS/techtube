@@ -22,7 +22,7 @@
 }
 
 .article-card {
-  height: 15rem;
+  height: 14rem;
   width: 11rem;
   background-color: rgb(233, 233, 233);
   border-radius: 0.5em;
@@ -35,13 +35,21 @@
   transform: scale(1.03);
 }
 
-.article-card-text > * {
+.article-card h3 {
   color: rgba(0, 0, 0, 1);
+}
+
+.article-card h4 {
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .article-card-text {
   color: black;
   padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 @media screen and (max-width: 1800px) {
