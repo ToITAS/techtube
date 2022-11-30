@@ -3,7 +3,8 @@
 const temaDropdownElem = document.querySelector("#tema");
 var temaer;
 const temaDropdownItems = [];
-var urlHome = "http://192.168.1.143";
+//var urlHome = "http://192.168.1.143";
+var urlHome = window.location.protocol + "//" + window.location.host;
 
 const moduleVelgerDropdownElem = document.querySelector("#moduleVelger");
 const moduleVelgerDropdownItems = [
