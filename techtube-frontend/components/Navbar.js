@@ -74,7 +74,7 @@ export default function Navbar() {
           )}
 
           <li>
-            <Link href="/">Featured</Link>
+            <Link href="/">Hjem</Link>
           </li>
           {auth?.user?.autoritet === 1 ? (
             <li>

@@ -61,6 +61,7 @@ nav img {
 }
 
 .search-bar-inner {
+  height: 2.8rem;
   padding: 0em 0.5em 0em 0.5em;
   display: flex;
   align-items: center;
