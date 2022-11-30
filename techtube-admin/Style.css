@@ -1,0 +1,38 @@
+body {
+  background: linear-gradient(180deg, #243453 0%, #1a2741 48.39%, #1a2333 100%);
+  background-size: cover;
+  overflow-x: hidden;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.logo img {
+  width: 21rem;
+  margin-left: 3rem;
+  margin-top: 3rem;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+}
+
+li {
+  margin-left: 2rem;
+}
+
+li a {
+  color: white;
+}
