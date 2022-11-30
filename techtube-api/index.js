@@ -39,7 +39,6 @@ router.post("/autoriser", async (req, res) => {
     const username = req.body.brukernavn;
     const password = req.body.passord;
 
-
     if (!username || !password) {
       res.status(400).json("Missing field(s)");
       return;
