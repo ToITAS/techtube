@@ -13,6 +13,8 @@ module.exports = (router, conf) => {
       ${limit ? `LIMIT ${limit}` : `LIMIT 30`}`
     );
 
+    conn.end();
+
     return rows;
   }
 
@@ -39,8 +41,8 @@ module.exports = (router, conf) => {
   router.get("/artikler", async (req, res) => {
     try {
       const limit = parseInt(req.query.limit) || 30;
-      const articleRows = await fetchArticles({ limit: limit });
-      res.status(200).json(formatArticles(articleRows));
+      const articles = await fetchArticles({ limit: limit });
+      res.status(200).json(articles ? formatArticles(articles) : []);
     } catch (e) {
       console.log(e);
       res.status(500).json({ error: "Could not fetch data" });
@@ -49,21 +51,20 @@ module.exports = (router, conf) => {
 
   router.get("/artikler/id/:id", async (req, res) => {
     try {
-      const articleRows = await fetchArticles({
+      const articles = await fetchArticles({
         condition: `artikkel.artikkel_id = ${req.params.id}`,
       });
-      res.status(200).json(formatArticles(articleRows)[0]);
+      if (articles.length !== 0) {
+        res.status(200).json(formatArticles(articles)[0]);
+      } else {
+        res.status(200).json({});
+      }
     } catch {
       res.status(500).json({ error: "Could not fetch data :(" });
     }
   });
 
   router.get("/artikler/tittel/:tittel", async (req, res) => {
-    if (!req.params.tittel) {
-      res.status(400).json({ error: "Missing Field(s)" });
-      return;
-    }
-
     try {
       const limit = req.query.limit || 30;
       const articleRows = await fetchArticles({
@@ -76,7 +77,7 @@ module.exports = (router, conf) => {
     }
   });
 
-  router.post("/leggTilArtikkel", async (req, res) => {
+  router.post("/artikler/ny", async (req, res) => {
     try {
       const tittel = req.body.tittel;
       const moduler = req.body.moduler;

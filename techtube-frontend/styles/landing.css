@@ -32,7 +32,7 @@
 }
 
 .article-card:hover {
-  transform: scale(1.03);
+  transform: translateY(-0.2rem);
 }
 
 .article-card h3 {

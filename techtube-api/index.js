@@ -36,18 +36,15 @@ AUTH
 */
 
 router.post("/autoriser", async (req, res) => {
+  const conn = await mysql
+    .createConnection(conf)
+    .catch((err) => res.status(500).json({ erorr: err }));
+
   try {
     const username = req.body.brukernavn;
     const password = req.body.passord;
 
-    if (!username || !password) {
-      res.status(400).json("Missing field(s)");
-      return;
-    }
-
-    const conn = await mysql
-      .createConnection(conf)
-      .catch((err) => res.status(500).json({ erorr: err }));
+    if (!username || !password) throw 1;
 
     const [users, fields] = await conn.query(
       `SELECT * 
@@ -55,14 +52,9 @@ router.post("/autoriser", async (req, res) => {
       WHERE brukernavn = '${username}' && bruker_rolle_id = rolle_id`
     );
 
-    if (users.length == 0) {
-      res.status(401).json({ error: "Invalid password or username" });
-      return;
-    }
+    if (users.length === 0) throw 2;
 
     const user = users[0];
-
-    console.log(user);
 
     var passDecrypted = CryptoJS.AES.decrypt(
       user.passord,
@@ -72,13 +64,7 @@ router.post("/autoriser", async (req, res) => {
     if (password == passDecrypted) {
       const token = jwt.sign(
         {
-          exp: Math.floor(Date.now() / 1000) + 60 * 60,
-          user: {
-            bruker_id: user.bruker_id,
-            brukernavn: user.brukernavn,
-            rolle: user.rolle_navn,
-            autoritet: user.autoritet,
-          },
+          bruker_id: user.bruker_id,
         },
         process.env.SECRET_KEY
       );
@@ -92,30 +78,55 @@ router.post("/autoriser", async (req, res) => {
         })
         .json({ result: "authenticated" });
     } else {
-      res.status(401).json({
-        error: new Error("Unauthorized"),
-      });
+      throw 2;
     }
   } catch (e) {
-    console.log(e);
-    res.status(400).json({ error: "Bad request" });
+    switch (e) {
+      case 1:
+        res.status(400).json({ error: "Missing field(s)" });
+        break;
+      case 2:
+        res.status(401).json({ error: "Invalid password or username" });
+        break;
+    }
   }
+
+  conn.end();
 });
 
 router.post("/validate", auth, async (req, res) => {
-  res.status(200).json(res.locals.user.user);
+  const conn = await mysql
+    .createConnection(conf)
+    .catch((err) => res.status(500).json({ erorr: err }));
+
+  try {
+    const [users, fields] = await conn.query(
+      `SELECT bruker_id, brukernavn, rolle_id, rolle_navn, autoritet
+      FROM brukere, bruker_rolle
+      WHERE bruker_id = '${res.locals.user.bruker_id}' && bruker_rolle_id = rolle_id`
+    );
+    res.status(200).json(users[0]);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 router.post("/deautoriser", async (req, res) => {
-  res
-    .status(200)
-    .cookie("token", null, {
-      httpOnly: true,
-      secure: false,
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000,
-    })
-    .json({ result: "deauthorized" });
+  try {
+    res
+      .status(200)
+      .cookie("token", null, {
+        httpOnly: true,
+        secure: false,
+        path: "/",
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .json({ result: "deauthorized" });
+  } catch (e) {
+    console.log(e);
+    res.send(500).json({ error: "Internal server error" });
+  }
 });
 
 const PORT = 8080;

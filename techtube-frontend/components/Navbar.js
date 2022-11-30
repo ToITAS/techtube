@@ -10,20 +10,23 @@ export default function Navbar() {
   const [searchActive, setSearchActive] = useState(false);
   const [searchData, setSearchData] = useState(null);
 
-  async function onSearchChange(query) {
-    const response = await fetch(
-      "/api/artikler/tittel/" + query
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length == 0) {
-          setSearchData(null);
-        } else {
-          setSearchData(data);
-        }
-      })
-      .catch(() => setSearchData(null));
-  }
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (searchText) {
+        const response = await fetch("/api/artikler/tittel/" + searchText)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.length == 0) {
+              setSearchData(null);
+            } else {
+              setSearchData(data);
+            }
+          })
+          .catch(() => setSearchData(null));
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchText]);
 
   function handleSearchFocus(e) {
     if (e.type == "focus") {
@@ -99,7 +102,6 @@ export default function Navbar() {
               value={searchText}
               onChange={(e) => {
                 setSearchText(e.target.value);
-                onSearchChange(e.target.value);
               }}
               onFocus={handleSearchFocus}
             ></input>

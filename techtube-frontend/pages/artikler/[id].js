@@ -19,7 +19,6 @@ export default function Article({ article }) {
             </h4>
           </div>
           <div className="article-content">
-            {auth.status ? "hei" : "hade"}
             {article.moduler
               ? article.moduler.map((module, index) => (
                   <div className="article-module" key={index}>

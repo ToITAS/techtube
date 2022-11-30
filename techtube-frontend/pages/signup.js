@@ -6,9 +6,24 @@ import Router from "next/router";
 export default function SignUp() {
   const [usernameText, setUsernameText] = useState("");
   const [passwordText, setPasswordText] = useState("");
+  const [errorText, setErrortext] = useState("");
+
+  const [isLoading, setLoading] = useState(false);
 
   async function handleSignUpClicked() {
     if (usernameText && passwordText) {
+      if (usernameText.includes(" ") || passwordText.includes(" ")) {
+        setErrortext("Brukernavn og passord kan ikke inneholde mellomrom");
+        return;
+      }
+
+      if (usernameText.length < 5 || passwordText.length < 5) {
+        setErrortext("Brukernavn og passord må bestå av minst 5 bokstaver");
+        return;
+      }
+
+      setErrortext("");
+      setLoading(true);
       const response = await fetch("/api/brukere/ny", {
         method: "POST",
         headers: {
@@ -22,7 +37,10 @@ export default function SignUp() {
 
       if (response.status === 201) {
         Router.push("/signin");
+      } else {
+        setErrortext(`Error: ${response.status}`);
       }
+      setLoading(false);
     }
   }
 
@@ -45,7 +63,10 @@ export default function SignUp() {
               value={passwordText}
               onChange={(e) => setPasswordText(e.target.value)}
             />
-            <button onClick={handleSignUpClicked}>Registrer</button>
+            <h5 className="login-error">{errorText}</h5>
+            <button disabled={isLoading} onClick={handleSignUpClicked}>
+              Registrer
+            </button>
           </div>
           <div className="login-subsection">
             <h5>Allerede en bruker?</h5>

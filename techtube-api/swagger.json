@@ -5,13 +5,14 @@
     "description": "",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "192.168.1.143/api",
   "basePath": "/",
   "schemes": ["http"],
   "paths": {
-    "/api/brukere": {
+    "/api/artikler": {
       "get": {
-        "tags": ["brukere"],
+        "tags": ["Artikler"],
+        "description": "",
         "parameters": [
           {
             "name": "limit",
@@ -29,35 +30,10 @@
         }
       }
     },
-    "/api/brukere/brukernavn/{brukernavn}": {
+    "/api/artikler/id/{id}": {
       "get": {
-        "tags": ["brukere"],
-        "parameters": [
-          {
-            "name": "brukernavn",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/brukere/id/{id}": {
-      "get": {
-        "tags": ["brukere"],
+        "tags": ["Artikler"],
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -76,9 +52,217 @@
         }
       }
     },
-    "/api/leggTilBruker": {
+    "/api/artikler/tittel/{tittel}": {
+      "get": {
+        "tags": ["Artikler"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "tittel",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/artikler/ny": {
       "post": {
-        "tags": ["brukere"],
+        "tags": ["Artikler"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tittel": {
+                  "example": "any"
+                },
+                "moduler": {
+                  "example": "any"
+                },
+                "lagtTilAvId": {
+                  "example": "any"
+                },
+                "temaId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/brukere": {
+      "get": {
+        "tags": ["Brukere"],
+        "description": "Returnerer en liste med alle brukere",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string",
+            "default": "30"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "bruker_id": {
+                    "type": "integer"
+                  },
+                  "brukernavn": {
+                    "type": "string"
+                  },
+                  "rolle_id": {
+                    "type": "integer"
+                  },
+                  "rolle_navn": {
+                    "type": "string"
+                  },
+                  "autoritet": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/brukere/brukernavn/{brukernavn}": {
+      "get": {
+        "tags": ["Brukere"],
+        "description": "Returnerer en liste med alle brukere basert på brukernavn",
+        "parameters": [
+          {
+            "name": "brukernavn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string",
+            "default": "30"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "bruker_id": {
+                    "type": "integer"
+                  },
+                  "brukernavn": {
+                    "type": "string"
+                  },
+                  "rolle_id": {
+                    "type": "integer"
+                  },
+                  "rolle_navn": {
+                    "type": "string"
+                  },
+                  "autoritet": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/brukere/id/{id}": {
+      "get": {
+        "tags": ["Brukere"],
+        "description": "Returnerer et objekt med brukeren med spesifisert id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "bruker_id": {
+                  "type": "integer"
+                },
+                "brukernavn": {
+                  "type": "string"
+                },
+                "rolle_id": {
+                  "type": "integer"
+                },
+                "rolle_navn": {
+                  "type": "string"
+                },
+                "autoritet": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/brukere/ny": {
+      "post": {
+        "tags": ["Brukere"],
         "parameters": [],
         "responses": {}
       }
@@ -226,115 +410,6 @@
         "description": "",
         "parameters": [],
         "responses": {}
-      }
-    },
-    "/api/artikler": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/artikler/id/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/artikler/tittel/{tittel}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "tittel",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/leggTilArtikkel": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "tittel": {
-                  "example": "any"
-                },
-                "moduler": {
-                  "example": "any"
-                },
-                "lagtTilAvId": {
-                  "example": "any"
-                },
-                "temaId": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
       }
     }
   }

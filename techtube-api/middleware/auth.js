@@ -14,11 +14,11 @@ module.exports = (req, res, next) => {
         throw "Unauthorized";
       }
     } else {
-      throw "Unauthorized"
+      throw "Unauthorized";
     }
   } catch (e) {
     res.status(401).json({
-      error: "Unauthorized"
+      error: "Unauthorized",
     });
   }
 };

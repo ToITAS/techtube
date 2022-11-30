@@ -6,14 +6,28 @@ module.exports = (router, conf) => {
     const conn = await mysql.createConnection(conf);
 
     const [rows, fields] = await conn.execute(
-      `SELECT brukernavn, bruker_id
-      FROM brukere
-      ${condition ? `WHERE ${condition}` : ""} 
+      `SELECT bruker_id, brukernavn, rolle_id, rolle_navn, autoritet
+      FROM brukere, bruker_rolle
+      WHERE bruker_rolle_id = rolle_id
+      ${condition ? `&& ${condition}` : ""} 
       ${limit ? `LIMIT ${limit}` : `LIMIT 30`}`
     );
 
+    conn.end();
+
     return rows;
   }
+
+  router.get("/brukere", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit) || 30;
+      const users = await fetchUsers({ limit: limit });
+      res.status(200).json(users ? users : []);
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ error: "Could not fetch data" });
+    }
+  });
 
   router.get("/brukere/brukernavn/:brukernavn", async (req, res) => {
     try {
@@ -40,18 +54,28 @@ module.exports = (router, conf) => {
   });
 
   router.post("/brukere/ny", async (req, res) => {
+    const conn = await mysql
+      .createConnection(conf)
+      .catch((err) => res.status(500).json({ erorr: err }));
+
     try {
       const username = req.body.brukernavn;
       const password = req.body.passord;
+
+      if (!username || !password) throw 1;
+      if (username.includes(" ") || password.includes(" ")) throw 2;
+      if (username.length < 5 || password.length < 5) throw 3;
 
       const passEncrypted = CryptoJS.AES.encrypt(
         password,
         process.env.SECRET_KEY
       ).toString();
 
-      const conn = await mysql
-        .createConnection(conf)
-        .catch((err) => res.status(500).json({ erorr: err }));
+      const users = await fetchUsers({
+        condition: `brukernavn = '${username}'`,
+      });
+
+      if (users.length !== 0) throw 4;
 
       conn
         .query(
@@ -62,25 +86,32 @@ module.exports = (router, conf) => {
           res.status(201).json({ bruker_id: rows.insertId });
         })
         .catch((err) => {
-          if (err.errno == 1048) {
-            res.status(400).json({ error: "Missing field(s)" });
-          }
           res.status(500).json({ error: err });
         });
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      switch (e) {
+        case 1:
+          res.status(400).json({
+            error: "Missing field(s)",
+          });
+          break;
+        case 2:
+          res.status(400).json({
+            error: "Brukernavn og passord kan ikke inneholde mellomrom",
+          });
+          break;
+        case 3:
+          res.status(400).json({
+            error: "Brukernavn og passord må bestå av minst 5 bokstaver",
+          });
+          break;
+        case 4:
+          res.status(400).json({
+            error: "Brukernavn allerede i bruk",
+          });
+          break;
+      }
     }
-  });
-
-  router.get("/brukere", async (req, res) => {
-    try {
-      const limit = parseInt(req.query.limit) || 30;
-      const users = await fetchUsers({ limit: limit });
-      res.status(200).json(users);
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ error: "Could not fetch data" });
-    }
+    conn.end();
   });
 };

@@ -6,19 +6,23 @@ const AuthContext = createContext();
 
 export const getUser = async (ctx) => {
   if (ctx.req.cookies.token) {
-    const response = await fetch(process.env.API_BASE_URL + "/api/validate", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-        "Bearer " + ctx.req.cookies.token ? ctx.req.cookies.token : undefined,
-      },
-    });
-    if (response.status === 200) {
-      return { status: true, user: await response.json() };
-    }
+    try {
+      const response = await fetch(process.env.API_BASE_URL + "/api/validate", {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer " + ctx.req.cookies.token
+              ? ctx.req.cookies.token
+              : undefined,
+        },
+      });
+      if (response.status === 200) {
+        return { status: true, user: await response.json() };
+      }
+    } catch {}
   }
   return { status: false, user: null };
 };
@@ -40,11 +44,11 @@ export const AuthProvider = (props) => {
       }),
       credentials: "include",
     }).then((result) => {
-      console.log(result)
+      console.log(result);
       if (result.status === 200) {
-        Router.push("/")
+        Router.push("/");
       }
-    })
+    });
   };
 
   const logout = async () => {
