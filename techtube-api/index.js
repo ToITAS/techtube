@@ -10,6 +10,7 @@ const dotenv = require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const conf = require("./lib/dbConf");
+
 const corsConf = {
   credentials: true,
   origin: ["http://localhost", "http://192.168.1.211"],
@@ -22,9 +23,9 @@ app.use(bp.urlencoded({ extended: true }));
 app.use("/api", router);
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-require("./routes/users")(router);
-require("./routes/articles")(router);
-require("./routes/topics")(router);
+require("./routes/users")(router, conf);
+require("./routes/articles")(router, conf);
+require("./routes/topics")(router, conf);
 
 const auth = require("./middleware/auth");
 

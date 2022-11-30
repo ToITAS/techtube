@@ -1,6 +1,6 @@
 const mysql = require("mysql2/promise");
 
-module.exports = (router) => {
+module.exports = (router, conf) => {
   async function fetchTema({ condition, limit }) {
     const conn = await mysql.createConnection(conf);
 

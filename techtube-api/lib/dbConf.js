@@ -1,4 +1,12 @@
 require("dotenv").config();
+/*
+module.exports = {
+  host: "localhost",
+  user: "root",
+  password: "root",
+  database: "techtube",
+};
+*/
 
 module.exports = {
   host: process.env.DB_HOST,

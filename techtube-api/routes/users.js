@@ -1,7 +1,7 @@
 const mysql = require("mysql2/promise");
 const CryptoJS = require("crypto-js");
 
-module.exports = (router) => {
+module.exports = (router, conf) => {
   async function fetchUsers({ condition, limit }) {
     const conn = await mysql.createConnection(conf);
 

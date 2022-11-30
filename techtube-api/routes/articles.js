@@ -1,6 +1,6 @@
 const mysql = require("mysql2/promise");
 
-module.exports = (router) => {
+module.exports = (router, conf) => {
   async function fetchArticles({ condition, limit }) {
     const conn = await mysql.createConnection(conf);
 
@@ -83,13 +83,13 @@ module.exports = (router) => {
       const lagtTilAvId = req.body.lagtTilAvId;
       const temaId = req.body.temaId;
       const unix = Math.floor(Date.now() / 1000);
-      
-      console.log(tittel, JSON.stringify(moduler), lagtTilAvId, temaId)
-  
+
+      console.log(tittel, JSON.stringify(moduler), lagtTilAvId, temaId);
+
       const conn = await mysql
         .createConnection(conf)
         .catch((err) => res.status(500).json({ erorr: err }));
-  
+
       conn
         .query(
           `INSERT INTO artikkel (tittel, moduler, lagt_til_av_id, lagt_til_dato, tema_id) VALUES (?, ?, ?, ?, ?)`,
@@ -105,14 +105,12 @@ module.exports = (router) => {
           }
           if (err.errno == 1048) {
             res.status(400).json({ error: "Missing field(s)" });
-            return
+            return;
           }
           res.status(500).json({ error: err });
         });
-        
-      } catch (e) {
-        console.log(e)
-      }
-      
-    });
+    } catch (e) {
+      console.log(e);
+    }
+  });
 };
