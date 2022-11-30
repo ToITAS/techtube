@@ -38,6 +38,10 @@ npm i
 npm run dev
 ```
 
+### NGINX
+
+1. Lag en tom mappe temp `/nginx-1.22.1/temp`
+
 # I produksjon
 
 1. Lag .env `/techtube-api/.env`
