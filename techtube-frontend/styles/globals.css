@@ -39,6 +39,9 @@ header {
 body {
   height: 100%;
   overflow-x: hidden;
+  background: linear-gradient(180deg, #243453 0%, #1a2741 48.39%, #1a2333 100%);
+  background-size: 100% 100vh;
+  background-attachment: fixed;
 }
 
 #__next,
@@ -61,7 +64,6 @@ a {
   display: flex;
   justify-content: center;
   width: 100%;
-  background: linear-gradient(180deg, #243453 0%, #1a2741 48.39%, #1a2333 100%);
 }
 
 .page-root-inner {
