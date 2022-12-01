@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import formatUnix from "../../lib/formatUnix";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../lib/context/AuthContext";
-import Prism from "prismjs";
 
 export async function getServerSideProps(context) {
   const response = await fetch(
