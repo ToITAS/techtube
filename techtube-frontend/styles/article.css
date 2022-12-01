@@ -1,5 +1,9 @@
 .article {
-  width: 800px;
+  width: 100%;
+}
+
+.article p {
+  white-space: pre-wrap;
 }
 
 .article-head h4 {
@@ -16,4 +20,13 @@
 
 .article-module h2 {
   font-weight: bold;
+}
+
+.codeblock {
+  background-color: #23262d;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
 }
