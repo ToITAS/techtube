@@ -1,0 +1,1 @@
+cd techtube-frontend && npm i && npm run dev

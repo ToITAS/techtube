@@ -1,0 +1,1 @@
+cd techtube-api && npm i && node .
