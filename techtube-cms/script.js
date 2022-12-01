@@ -64,7 +64,7 @@ window.onload = async () => {
   });
 };
 
-function onSend() {
+async function onSend() {
   const brukernavn = document.querySelector("#navn").value;
   var brukerId;
   brukere.forEach((bruker) => {
@@ -93,11 +93,16 @@ function onSend() {
     moduler,
   };
 
-  fetch(urlHome + "/api/artikler/ny", {
+  const response = await fetch(urlHome + "/api/artikler/ny", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newArticle),
-  }).then((res) => console.log(res.json()));
+  });
+
+  if (response.status == 200) {
+    const responseJson = await response.json();
+    window.location = `/artikler/${responseJson.articleId}`;
+  }
 }
 
 function removeModule(moduleId) {
