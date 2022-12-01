@@ -38,6 +38,8 @@ export default function Article({ article }) {
                           <p>{module.tekst}</p>
                         ) : module.type == "kodeblokk" ? (
                           <p className="codeblock">{module.tekst}</p>
+                        ) : module.type == "bilde" ? (
+                          <img src={module.tekst} className="article-image" />
                         ) : (
                           ""
                         )}
