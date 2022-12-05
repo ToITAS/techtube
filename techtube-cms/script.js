@@ -5,6 +5,7 @@ var temaer;
 const temaDropdownItems = [];
 //var urlHome = "http://192.168.1.143";
 var urlHome = window.location.protocol + "//" + window.location.host;
+const emneknaggerElem = document.querySelector("#emneknagger");
 
 const moduleVelgerDropdownElem = document.querySelector("#moduleVelger");
 const moduleVelgerDropdownItems = [
@@ -86,11 +87,14 @@ async function onSend() {
     });
   });
 
+  const knagger = emneknaggerElem.value.split(",");
+
   const newArticle = {
     tittel: document.querySelector("#tittelInput").value,
     temaId,
     lagtTilAvId: brukerId,
     moduler,
+    emneknagger: knagger,
   };
 
   const response = await fetch(urlHome + "/api/artikler/ny", {

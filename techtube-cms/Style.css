@@ -56,6 +56,17 @@ select:focus {
   outline: none;
 }
 
+#emneknagger {
+  background: none;
+  border: none;
+  color: white;
+  border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+#emneknagger:focus {
+  outline: none;
+}
+
 .send {
   display: flex;
   justify-content: center;
