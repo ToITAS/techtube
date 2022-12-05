@@ -97,8 +97,9 @@ module.exports = (router, conf) => {
         typeof lagtTilAvId !== "number" ||
         typeof temaId !== "number" ||
         typeof tags !== "object"
-      )
-        throw 2;
+      ) {
+        res.status(400).json({ error: "Invalid Type" });
+      }
 
       conn
         .query(
@@ -123,22 +124,17 @@ module.exports = (router, conf) => {
           res.status(200).json({ articleId: rows.insertId });
         })
         .catch((err) => {
-          if (err.errno == 1048) throw 1;
-          if (err.errno == 1452) throw 2;
-
-          res.status(500).json({ error: err });
+          if (err.errno == 1048) {
+            res.status(400).json({ error: "Missing field(s)" });
+            return;
+          } else if (err.errno == 1452) {
+            res.status(400).json({ error: "Wrong type(s)" });
+            return;
+          } else {
+            res.status(500).json({ error: err });
+          }
         });
     } catch (e) {
-      switch (e) {
-        case 1:
-          res.status(400).json({ error: "Missing field(s)" });
-          break;
-        case 2:
-          res.status(400).json({ error: "Wrong type(s)" });
-          break;
-        case 3:
-          res.status(400).json({ error: "Invalid id(s)" });
-      }
       console.log(e);
     }
   });
