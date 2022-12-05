@@ -1,18 +1,20 @@
-import { useEffect } from "react";
 import formatUnix from "../../lib/formatUnix";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../lib/context/AuthContext";
+import { redirect } from "next/dist/server/api-utils";
 
 export async function getServerSideProps(context) {
   const response = await fetch(
     process.env.API_BASE_URL + "/api/artikler/id/" + context.params.id
   );
   const article = await response.json();
+
   return { props: { article } };
 }
 
 export default function Article({ article }) {
   const { auth } = useAuth();
+  console.log(article);
 
   return (
     <>
@@ -26,6 +28,18 @@ export default function Article({ article }) {
                 Skrevet {formatUnix(article.lagt_til_dato)} av{" "}
                 {article.lagt_til_av.brukernavn}
               </h4>
+              {article.emneknagger ? (
+                <h4>
+                  {article.emneknagger.map((knagg, index) => (
+                    <span className="hashtag-item" key={index}>
+                      {" #"}
+                      {knagg}
+                    </span>
+                  ))}
+                </h4>
+              ) : (
+                ""
+              )}
             </div>
             <div className="article-content">
               {article.moduler

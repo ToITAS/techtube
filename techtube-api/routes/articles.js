@@ -5,7 +5,7 @@ module.exports = (router, conf) => {
     const conn = await mysql.createConnection(conf);
 
     const [rows, fields] = await conn.execute(
-      `SELECT artikkel.artikkel_id, artikkel.tittel, artikkel.moduler, artikkel.lagt_til_dato, tema.navn, brukere.bruker_id, brukere.brukernavn, tema.navn
+      `SELECT artikkel.artikkel_id, artikkel.tittel, artikkel.moduler, artikkel.lagt_til_dato, artikkel.emneknagger, tema.navn, brukere.bruker_id, brukere.brukernavn, tema.navn
       FROM artikkel, tema, brukere 
       ${condition ? `WHERE ${condition} &&` : "WHERE"} 
       artikkel.lagt_til_av_id = brukere.bruker_id && artikkel.tema_id = tema.tema_id
@@ -32,6 +32,7 @@ module.exports = (router, conf) => {
           bruker_id: article.bruker_id,
           brukernavn: article.brukernavn,
         },
+        emneknagger: article.emneknagger ? JSON.parse(article.emneknagger) : [],
       });
     });
 
@@ -83,34 +84,61 @@ module.exports = (router, conf) => {
       const moduler = req.body.moduler;
       const lagtTilAvId = req.body.lagtTilAvId;
       const temaId = req.body.temaId;
+      const tags = req.body.emneknagger;
       const unix = Math.floor(Date.now() / 1000);
-
-      console.log(tittel, JSON.stringify(moduler), lagtTilAvId, temaId);
 
       const conn = await mysql
         .createConnection(conf)
         .catch((err) => res.status(500).json({ erorr: err }));
 
+      if (
+        typeof tittel !== "string" ||
+        typeof moduler !== "object" ||
+        typeof lagtTilAvId !== "number" ||
+        typeof temaId !== "number" ||
+        typeof tags !== "object"
+      )
+        throw 2;
+
       conn
         .query(
-          `INSERT INTO artikkel (tittel, moduler, lagt_til_av_id, lagt_til_dato, tema_id) VALUES (?, ?, ?, ?, ?)`,
-          [tittel, JSON.stringify(moduler), lagtTilAvId, unix, temaId]
+          `INSERT INTO artikkel (
+            tittel, 
+            moduler, 
+            lagt_til_av_id, 
+            lagt_til_dato, 
+            tema_id, 
+            emneknagger
+          ) VALUES (?, ?, ?, ?, ?, ?)`,
+          [
+            tittel,
+            JSON.stringify(moduler),
+            lagtTilAvId,
+            unix,
+            temaId,
+            JSON.stringify(tags),
+          ]
         )
         .then(([rows, fields]) => {
           res.status(200).json({ articleId: rows.insertId });
         })
         .catch((err) => {
-          if (err.errno == 1452) {
-            res.status(400).json({ error: "Invalid id(s)" });
-            return;
-          }
-          if (err.errno == 1048) {
-            res.status(400).json({ error: "Missing field(s)" });
-            return;
-          }
+          if (err.errno == 1048) throw 1;
+          if (err.errno == 1452) throw 2;
+
           res.status(500).json({ error: err });
         });
     } catch (e) {
+      switch (e) {
+        case 1:
+          res.status(400).json({ error: "Missing field(s)" });
+          break;
+        case 2:
+          res.status(400).json({ error: "Wrong type(s)" });
+          break;
+        case 3:
+          res.status(400).json({ error: "Invalid id(s)" });
+      }
       console.log(e);
     }
   });

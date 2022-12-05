@@ -10,6 +10,10 @@
   color: rgb(189, 189, 189);
 }
 
+.hashtag-item {
+  color: rgb(118, 162, 228);
+}
+
 .article-content {
   margin-top: 2rem;
 }
