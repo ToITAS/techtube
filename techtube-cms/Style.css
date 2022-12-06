@@ -5,6 +5,10 @@ body {
   height: 100vh;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .tittel {
   display: flex;
   justify-content: left;
@@ -104,6 +108,7 @@ select:focus {
 
 .input textarea {
   resize: vertical;
+  display: block;
 }
 
 .modules {
