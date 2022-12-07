@@ -2,32 +2,33 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
 const bp = require("body-parser");
+const cookies = require("cookie-parser");
 const router = express.Router();
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const CryptoJS = require("crypto-js");
 const dotenv = require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const auth = require("./middleware/auth");
 
 const conf = require("./lib/dbConf");
 
-const corsConf = {
+const corsConfig = {
   credentials: true,
-  origin: ["http://localhost", "http://192.168.1.211"],
+  origin: ["http://localhost"],
 };
 
 const app = express();
-app.use(cors(corsConf));
+app.use(cors(corsConfig));
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
+app.use(cookies());
 app.use("/api", router);
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-require("./routes/users")(router, conf);
+require("./routes/users")(router);
 require("./routes/articles")(router, conf);
 require("./routes/topics")(router, conf);
-
-const auth = require("./middleware/auth");
 
 /*
 ######
@@ -116,7 +117,7 @@ router.post("/deautoriser", async (req, res) => {
   try {
     res
       .status(200)
-      .cookie("token", null, {
+      .cookie("token", "", {
         httpOnly: true,
         secure: false,
         path: "/",

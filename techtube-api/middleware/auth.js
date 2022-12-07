@@ -3,7 +3,8 @@ const dotenv = require("dotenv").config();
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    let token = req.headers.authorization.split(" ")[1];
+
     if (token !== "undefined") {
       const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
 
@@ -17,6 +18,7 @@ module.exports = (req, res, next) => {
       throw "Unauthorized";
     }
   } catch (e) {
+    console.log(e);
     res.status(401).json({
       error: "Unauthorized",
     });

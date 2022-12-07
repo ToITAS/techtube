@@ -13,10 +13,9 @@ export const getUser = async (ctx) => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer " + ctx.req.cookies.token
-              ? ctx.req.cookies.token
-              : undefined,
+          Authorization: `Bearer ${
+            ctx.req.cookies.token ? ctx.req.cookies.token : ""
+          }`,
         },
       });
       if (response.status === 200) {
