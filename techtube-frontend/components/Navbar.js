@@ -72,10 +72,13 @@ export default function Navbar() {
               </Link>
             </li>
           )}
-
-          <li>
-            <Link href="/">Hjem</Link>
-          </li>
+          {auth.status ? (
+            <li>
+              <Link href="/groups">Dine Grupper</Link>
+            </li>
+          ) : (
+            ""
+          )}
           {auth?.user?.autoritet === 1 ? (
             <>
               <li>
