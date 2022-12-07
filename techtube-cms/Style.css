@@ -177,3 +177,58 @@ textarea {
 .kodeblokk textarea:focus {
   cursor: text;
 }
+
+.infoBox {
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid #000;
+  margin: 0 auto 0px;
+  text-align: center;
+  padding: 20px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  background-color: #ffe4bf;
+  border-color: #ffe4bf;
+  color: #243453;
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  right: 0;
+  top: 3.5vh;
+  transition: all 200ms;
+  transform: translateX(90%);
+}
+
+.infoBoxImg img {
+  height: 3rem;
+}
+
+.infoBoxImg {
+  height: fit-content;
+  margin-right: 1rem;
+}
+
+.infoBox h2 {
+  color: #243453;
+  margin: 0;
+  font-family: "Roboto";
+}
+
+.infoBox h1 {
+  color: #243453;
+  margin: 0;
+  font-family: "Bebas Neue", cursive;
+  font-size: 250%;
+}
+
+a:link {
+  color: #243453;
+}
+
+a:visited {
+  color: #243453;
+}
+
+.infoBox:hover {
+  transform: translateX(0);
+}
